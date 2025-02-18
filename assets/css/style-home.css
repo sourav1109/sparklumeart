@@ -1,0 +1,668 @@
+/* Reset some default browser styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply a background color to the body */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.background img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Style the header */
+header {
+   text-align: center;
+    color: #fff;
+    padding: 10px 0;
+    background: transparent;
+}
+
+/* Style the navigation menu */
+nav ul {
+    list-style-type: none;
+    background-color:rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+    
+}
+
+nav ul li a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:transparent;
+    color: wheat;
+    text-decoration: underline;
+    
+    border: none;
+    border-radius: 5px;
+    font-size: 26px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+nav ul li a:hover{
+    background-color:#FDD017;
+    color: black;
+   
+    transform: scale(1.05);
+}
+
+/* Center the container */
+#name-tagline {
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Center vertically within the viewport */
+}
+
+/* Initial styles for logo and text */
+.logo img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    opacity: 0; /* Initially hidden */
+    filter: blur(10px); /* Initially blurred */
+    transition: opacity 0.8s ease-in-out, filter 0.8s ease-in-out;
+    
+}
+
+#name-tagline h1 {
+    font-size: 36px;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.8s ease-in-out;
+}
+
+/* Keyframes for animation */
+@keyframes appear {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+/* Apply the animation */
+.logo img.visible {
+    animation: appear 1s ease-in-out;
+    opacity: 1;
+    filter: blur(0);
+}
+
+#name-tagline h1.visible {
+    animation: appear 1s ease-in-out;
+    opacity: 1;
+}
+
+
+/* Style the profile button */
+.profile-button {
+    background-color: yellow;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 10px;
+    display: inline-block;
+    position: relative;
+}
+
+.profile-button img {
+    width: 25px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* Style the profile dropdown */
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+/* Style the main content section */
+#purpose {
+    background-color:rgba(254, 252, 252,0.9);
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px ;
+}
+
+.promo p {
+    font-size: 28px;
+}
+
+.blink {
+    color: #dde2e6;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: green;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.upload-button:hover{
+    background-color: rgb(95, 12, 29);
+}
+/* Style the painter info section */
+
+#painter-info {
+    background-color: rgba(16, 16, 16, 0.5);
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s, transform 1s;
+}
+
+#painter-info .image {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+
+}
+
+
+#painter-info img {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+#painter-info .achievements {
+    flex: 1;
+    padding: 10px;
+    text-align:center;
+    background-color: transparent;
+    border: none;
+}
+
+#painter-info .achievements h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+#painter-info .achievements ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    font-size: 20px;
+    list-style: none;
+}
+
+/* Class to make the painter-info section visible */
+#painter-info.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Style the featured masterpieces section */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .gallery .image {
+    position: relative;
+    width: 250px; /* Adjust the frame width */
+    height: 300px; /* Adjust the frame height */
+  margin: 2px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    overflow: hidden;
+    border-radius: 30px; /* Increase the border-radius for larger frames */
+    background-color:rgba(224, 210, 210, 0.7); /* Add a solid background color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px; /* Increase the padding for larger frames */
+
+    border: 5px solid rgb(231, 228, 228); /* Add a border to the frame */
+  }
+  
+  .gallery .image img {
+    max-width:80%; /* Maintain image aspect ratio */
+    max-height: 100%; /* Maintain image aspect ratio */
+    width: auto;
+    height: auto;
+    transition: transform 0.2s ease-in-out;
+    margin: 3px;
+  }
+  
+  .gallery .image:hover {
+    transform: scale(1.05);
+  }
+  
+
+        
+
+
+/* Define a class for the animation trigger */
+.animate {
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Style the modal for displaying images */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+}
+/* ... (Previous CSS code) ... */
+
+/* Style the modal for image display */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7); 
+
+
+/* Style the modal content */
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 80%;
+    max-height: 80%;
+}
+
+/* Style the close button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#prevBtn,#nextBtn{
+    padding: 10px;
+    color: red;
+    background-color: #fff;
+    border: 2px;
+    border-radius: 5px;
+    align-items: center;
+   margin: 10px;
+}
+
+/* Center-align and fix the position of the Previous and Next buttons within the modal */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent background */
+    z-index: 1;
+}
+
+.modal-content {
+    text-align: center;
+    background-color: #fff; /* Background color for the modal content */
+    border-radius: 5px;
+    padding: 20px;
+    position: relative;
+}
+
+#prevBtn,
+#nextBtn {
+    /* Add button styles as needed */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#prevBtn {
+    left: 10px;
+}
+
+#nextBtn {
+    right: 10px;
+}
+
+#prevBtn:hover,
+#nextBtn:hover {
+    background-color: #0056b3;
+}
+}
+/* Reset some default styles */
+body, h2, label, select, button {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Style the portrait price calculator section */
+.info {
+    text-align: center;
+    padding: 20px;
+}
+
+#portrait-type, #portrait-category, #portrait-category-pet,
+#portrait-type-human, #portrait-type-pet, #portrait-type-combined,
+#background-type, #paper-size, #paper-type {
+    padding: 4px;
+    margin: 4px;
+}
+
+#portrait-type-human, #portrait-type-pet, #portrait-type-combined {
+    display: none;
+}
+
+#family-input, #multiple-pets-input, #combined-options {
+    display: none;
+}
+
+#calculate-button {
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Style the price result section */
+#price-result {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(5, 4, 4, 0.5);
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+    
+}
+
+#price-breakdown {
+    margin: 8px 0;
+}
+
+#final-price {
+    font-weight: bold;
+    font-size: 24px;
+    margin: 8px 0;
+}
+
+.faq {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.faq h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+    width: 100%;
+    text-align: center;
+}
+
+.faq-item {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: calc(32% - 20px); /* Arrange three items side by side with a small margin between them */
+    box-sizing: border-box;
+}
+
+.faq-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.faq-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #00bcd4;
+}
+
+.faq-item p {
+    font-size: 1.2rem;
+    color: #666;
+}
+/* Define a class for the animation */
+.animate {
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* styles.css */
+
+/* Style the "Sell Your Art" section */
+.sell-overview {
+    background-color: rgba(0, 0, 0, 0.);
+    padding: 20px;
+    text-align: center;
+    color:black;
+    background-color: rgba(252, 246, 246, 0.5);
+    font-size: 20px;
+}
+
+.sell-overview h2 {
+    font-size: 28px;
+    color: #fff;
+}
+
+.sell-overview p {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.sell-overview ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.sell-overview li {
+    margin: 10px 0;
+}
+
+.sell-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.sell-button:hover {
+    background-color: #0056b3;
+}
+
+/* Style the "Artist Gallery" section */
+/* styles.css */
+
+/* ... (previous CSS styles) */
+
+/* Style the "Artist Gallery" section */
+.artist-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.artwork {
+    position: relative;
+    margin: 10px;
+    max-width: 300px; /* Adjust the maximum width as needed */
+}
+
+.artwork img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+}
+
+/* ... (remaining CSS styles) */
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.overlay a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.overlay a:hover {
+    background-color: #0056b3;
+}
+
+.artwork:hover .overlay {
+    opacity: 1;
+}
+.heading{
+font-size: 40px;
+font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+font-weight: bolder;
+}
+.heading p{
+font-display:initial ;
+background-color: red;
+
+
+
+}

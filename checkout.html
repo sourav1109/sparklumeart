@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: burlywood;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 10px;
+            background-color: rgba(0,0,0,0.5);
+            padding: 30px;
+            padding-right: 38px;
+            border-radius: 10px;
+            color:antiquewhite;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+        .form-group input[type="text"], .form-group input[type="number"], .form-group input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .checkout h1{
+            color:rgb(26, 28, 130);
+            text-decoration: underline;
+
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+        }
+       
+        .checkout p{
+            background-color: gold;
+            width: 30%;
+            padding: 5px;
+        }
+        .head {
+            text-align: center;
+        }
+        .head h1{
+            color: blue;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+        }
+        .head h3{
+            margin-bottom: 20px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin-top: -5px;
+            margin-bottom: 25px;
+
+        }
+        .head p{
+            font-weight: bolder;
+            font-size: 16px;
+            background-color:khaki;
+            padding: 15px;
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <center>
+        <h1>WEBSITE NAME </h1>
+        <h3>TAGLINE</h3>
+
+        <P>Due To maintainance we are facing isuuse to process the request. Please be patient.<br>We will send you The Product Price and The delivery charge 
+        according to your address via provided EMAIL and WHATSAPP details.<br> For more details go through our <a href="#">Terms and Conditions </a>.</P>
+    </center>
+    </div>
+
+    <div class="checkout">
+    <center>
+    <h1>Checkout Form</h1>
+    
+        <p> Please Fill The Form Carefully With Receiver's Details.</p>
+    </center>
+    </div>
+    <div class="form-container">
+        
+        <form id="myForm" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter Receiver's Name" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number:</label>
+                <input type="number" id="mobile" name="mobile" placeholder="Enter Receiver's Mobile-Number"  required>
+            </div>
+            <div class="form-group">
+                <label for="whatsapp">WhatsApp Number:</label>
+                <input type="number" id="whatsapp" name="whatsapp" placeholder="Enter Receiver's WhatsApp-Number" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" placeholder="Enter Receiver's Email-Id">
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" maxlength="100" placeholder="Enter Receiver's Complete Address">
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pincode:</label>
+                <input type="number" id="pincode" name="pincode" pattern="\d{6}" placeholder="Enter Receiver's Mobile-Number" required>
+            </div>
+            <center>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </center>
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById('myForm');
+    
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            const mobileInput = document.getElementById('mobile');
+            const whatsappInput = document.getElementById('whatsapp');
+            const pincodeInput = document.getElementById('pincode');
+            const nameInput = document.getElementById('name');
+    
+            if (mobileInput.value.length !== 10) {
+                alert('Mobile number must be 10 digits.');
+                return; // Exit the function early if validation fails
+            }
+    
+            if (whatsappInput.value.length !== 10) {
+                alert('WhatsApp number must be 10 digits.');
+                return;
+            }
+    
+            const pincodePattern = /^\d{6}$/;
+            if (!pincodePattern.test(pincodeInput.value)) {
+                alert('Pincode must be a 6-digit number.');
+                return;
+            }
+    
+            // If all validations pass, show success message
+            const userName = nameInput.value;
+            alert(`Dear ${userName}, your request is under process. We will get back to you on WhatsApp and email shortly. Thank you for your patience.`);
+            form.reset(); // Optionally, reset the form fields after successful submission
+        });
+    </script>
+<script>
+    const form = document.getElementById('myForm');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const mobileInput = document.getElementById('mobile');
+        const whatsappInput = document.getElementById('whatsapp');
+        const pincodeInput = document.getElementById('pincode');
+        const nameInput = document.getElementById('name');
+
+        if (mobileInput.value.length !== 10) {
+            alert('Mobile number must be 10 digits.');
+            return; // Exit the function early if validation fails
+        }
+
+        if (whatsappInput.value.length !== 10) {
+            alert('WhatsApp number must be 10 digits.');
+            return;
+        }
+
+        const pincodePattern = /^\d{6}$/;
+        if (!pincodePattern.test(pincodeInput.value)) {
+            alert('Pincode must be a 6-digit number.');
+            return;
+        }
+
+        // If all validations pass, show success message
+        const userName = nameInput.value;
+        alert(`Dear ${userName}, your request is under process. We will get back to you on WhatsApp and email shortly. Thank you for your patience.`);
+        form.reset(); // Optionally, reset the form fields after successful submission
+    });
+</script>
+<br>
+<footer>
+    <center>
+    <p style="color: aliceblue;background-color: rgba(0,0,0,0.7);padding: 10px;border-radius: 10px;">&copy; 2023 Your Website Name. All rights reserved.</p>
+</center>
+</footer>
+    
+</body>
+</html>

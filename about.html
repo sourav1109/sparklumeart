@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-about.css">
+    <title>About Us</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="background">
+                <img src="back 4.jpg" alt="Background Image">
+            </div>
+            <ul>
+                <li> <li><a href="home.php">Home</a></li>
+                       
+                    <li><a href="gallery.php">Art Gallery</a></li>
+                    <li><a href="upload.php">Upload</a></li>
+                    <li><a href="sellpage.php">Art Shop</a></li>
+                    <li><a href="about.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+
+    <div class="content">
+        <div class="image">
+            <img src="Logo-2.png" alt="Painting">
+        </div>
+        <div class="about">
+            <h1>About Our Website</h1>
+            <p>
+                Welcome to our painting website! We are passionate about art and creativity. Our platform is dedicated to showcasing and sharing the beautiful world of art with art enthusiasts from around the globe.
+            </p>
+            <p>
+                At Spark Lume, we see beyond the surface. Each face, each contour holds a narrative waiting to be unveiled. Our craft is not just about sketching, but about capturing that elusive spark that defines you. Through precise strokes and keen artistry, we transform moments into luminous masterpieces. Dive into the Spark Lume experience, where you're not just portrayed, you're celebrated
+            </p>
+            <p>
+                We believe that art has the power to inspire, evoke emotions, and connect people. Whether you're an artist looking to share your work or an art lover seeking inspiration, you'll find a welcoming community here.
+            </p>
+        </div>
+    </div>
+
+    <div class="contact-button">
+        <button id="contact-button">Contact Us</button>
+    </div>
+    <br>
+    <br>
+
+    <div class="contact-details" style="display: none;">
+        <h2>Contact Us</h2>
+        <p>Email: sparklume2023@gmail.com</p>
+        <p>Phone: +91-9907451611</p>
+        <p>Address: 44B-Model Town , Phagwara , Punjab</p>
+    </div>
+    <br>
+
+    <script>
+        // Get references to the Contact Us button and the contact details section
+const contactButton = document.getElementById('contact-button');
+const contactDetails = document.querySelector('.contact-details');
+
+// Add a click event listener to the button
+contactButton.addEventListener('click', function() {
+    // Toggle the visibility of the contact details section
+    if (contactDetails.style.display === 'none' || contactDetails.style.display === '') {
+        contactDetails.style.display = 'block'; // Display the contact details
+    } else {
+        contactDetails.style.display = 'none'; // Hide the contact details
+    }
+});
+
+    </script>
+    <footer>
+        <p style="text-align: center;font-size: 20px; padding: 10px;background-color: rgba(0,0,0,0.5);border: rgba(0,0,0,0.5);border-radius: 10px;">
+            
+            
+            &copy; 2023 Your Website Name. All rights reserved.</p>
+
+</footer>
+</body>
+</html>
