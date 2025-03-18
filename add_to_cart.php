@@ -4,13 +4,24 @@ include('backend/config.php'); // Include database configuration
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to login if not logged in
+    $_SESSION['login_error'] = "Only users can add products to the cart!";
     $_SESSION['redirect_after_login'] = 'sell.php'; // Redirect back to sell page after login
     header("Location: login.php");
     exit;
 }
 
 $userId = $_SESSION['user_id']; // Get the logged-in user's ID
+
+// Check if the logged-in user is a customer (not an admin)
+$roleCheckStmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
+$roleCheckStmt->execute([$userId]);
+$user = $roleCheckStmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user || $user['role'] !== 'user') {
+    $_SESSION['cart_error'] = "Only users can add products to the cart!";
+    header("Location: sell.php");
+    exit;
+}
 
 // Validate POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST['quantity'])) {
@@ -70,3 +81,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
     header("Location: sell.php");
     exit;
 }
+?>

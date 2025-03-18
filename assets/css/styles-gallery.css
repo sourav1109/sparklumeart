@@ -1,4 +1,4 @@
-/* Reset some default styles */
+Reset some default styles
 * {
     margin: 0;
     padding: 0;
@@ -23,11 +23,11 @@ nav ul {
     list-style-type: none;
 }
 
-nav ul li {
+ nav ul li {
     display: inline;
     margin-right: 20px;
     font-size: 20px;
-}
+} 
 
 nav ul li a {
     text-decoration: none;
@@ -59,11 +59,16 @@ nav ul li a:hover {
 /* Style the "Upload Now" button */
 .upload-button {
     display: inline-block;
-    background-color: #ff5733; /* You can change the button color */
+     /* You can change the button color */
     color: #fff;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
+    
+     background-color: #ff2e00;
+    transform: scale(1.1);
+    
+    
 }
 .name{
     align-items: center;
@@ -93,6 +98,8 @@ nav ul li a:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
   }
   
   .gallery .image {
@@ -124,8 +131,9 @@ nav ul li a:hover {
   
   .gallery .image:hover {
     transform: scale(1.05);
-  }
-  
+    box-shadow: 0px 0px 15px rgba(255, 87, 51, 0.7);
+}
+
   /* Lightbox Styles */
   .modal {
     display: none;
@@ -138,10 +146,12 @@ nav ul li a:hover {
     background: rgba(0, 0, 0, 0.8);
     align-items: center;
     justify-content: center;
+    
   }
   
   .modal.active {
     display: flex;
+    opacity: 1;
   }
   
   .modal img {
@@ -264,11 +274,16 @@ nav ul li a:hover {
     padding: 10px;
 }
 .painter-picture img{
-    width:30%;
+    width: 50%;
+    max-width: 200px;
     margin-left:30% ;
     border-radius: 120%;
     
 }
+.painter-picture img {
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
 
 /* Style the painter's message */
 .painter-message {

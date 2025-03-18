@@ -87,8 +87,11 @@ $uploads = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1>Admin Dashboard - User Upload Submissions</h1>
         <a href="manage_sell_page.php">Manage Sell Page</a>
         <a href="manage_gallery.php" class="btn-admin-nav">Manage Gallery</a>
+        <a href="manage_leads.php" class="btn-admin-nav">📊 Manage Leads</a>
+
         <a href="manage_orders.php" class="btn-admin-nav">Manage orders</a>
         <a href="../logout.php">Logout</a>
+
     </header>
 
     <div class="container">

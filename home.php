@@ -19,6 +19,7 @@
                 <li><a href="gallery.php">Art Gallery</a></li>
                 <li><a href="upload.php">Upload</a></li>
                 <li><a href="sell.php">Art Shop</a></li>
+                <li><a href="psychology.php">🎨 Art & Soul Quest</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="login.php">login</a></li>
                 

@@ -1,5 +1,18 @@
-<?php include('backend/config.php'); ?>
-<!DOCTYPE html>
+<?php
+// Include config file
+require_once "backend/config.php";
+
+try {
+    // Fetch all images from the gallery
+    $sql = "SELECT * FROM gallery";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $galleryImages = $stmt->fetchAll(); // Fetch all records as associative array
+} catch (PDOException $e) {
+    die("Query failed: " . $e->getMessage()); // Handle errors gracefully
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,154 +22,80 @@
     <link rel="stylesheet" href="assets/css/styles-gallery.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li> <li><a href="home.php">Home</a></li>
-                       
+                <li><a href="home.php">Home</a></li>
                 <li><a href="gallery.php">Art Gallery</a></li>
                 <li><a href="upload.php">Upload</a></li>
-                <li><a href="sellpage.php">Art Shop</a></li>
+                <li><a href="sell.php">Art Shop</a></li>
                 <li><a href="about.html">About Us</a></li>
             </ul>
         </nav>
     </header>
+
     <div class="name">
-        <br>
-        <br>
-    <h1>Sparklume</h1>
-        <br>
-        
-            
-           
-           
-        <h2>Every Portrait, a Brilliant Flash with Spark Lume.
-        </h2>
-        <br>
+        <h1>Sparklume</h1>
+        <h2>Every Portrait, a Brilliant Flash with Spark Lume.</h2>
     </div>
+
     <section id="purpose">
         <div class="promo">
             <center>
-            
-            <br>
-            <p class="blink">40% OFF: Commission Your Affordable Portrait Sketch</p>
-            <br>
-            <a href="upload.html" class="upload-button">Upload Now</a>
-            <br>
-            <br>
-            <h3 class="artists-gallery"><u>WELCOME TO OUR ART GALLERY</u></h3>
+                <p class="blink">40% OFF: Commission Your Affordable Portrait Sketch</p>
+                <br>
+                <a href="upload.html" class="upload-button">Upload Now</a>
+                <h3 class="artists-gallery"><u>WELCOME TO OUR ART GALLERY</u></h3>
             </center>
         </div>
+    </section>
+
     <div class="gallery">
-        <div class="image">
-            <img src="f.jpg" alt="Image 1" style="padding-bottom: 5px;">
-            <div class="caption">Atmaroti<p>(Oil Painting)</p></div>
-        </div>
-        <div class="image">
-            <img src="w.jpg" alt="Image 2">
-            <div class="caption">A Mat Seller <p>( Water color )</p> </div>
-
-            
-        </div>
-        <div class="image">
-            <img src="q.jpg" alt="Image 3">
-            <div class="caption">The Old Man<p>(Water color)</p></div>
-        </div>
-        <div class="image">
-            <img src="o.jpg" alt="Image 4">
-            <div class="caption">Nature <p>( Water color )</p></div>
-        </div>
-        <div class="image">
-            <img src="aa.jpg" alt="Image 5">
-            <div class="caption">Favourite Teacher<p>(Pencil sketch)</p></div>
-        </div>
-        <div class="image">
-            <img src="IMG.jpg" alt="Image 6">
-            <div class="caption">After Bath <p>(Pencil sketch)</p></div>
-        </div>
-        <div class="image">
-            <img src="af.jpg" alt="Image 7">
-            <div class="caption">Depressed Man <p>( Water color )</p></div>
-        </div>
-        <div class="image">
-            <img src="ag.jpg" alt="Image 8">
-            <div class="caption">The Old Women<p>(Pencil sketch)</p></div>
-        </div>
-        <div class="image">
-            <img src="an.jpg" alt="Image 9">
-            <div class="caption">A Girl<p>(Pencil sketch)</p></div>
-        </div>
-        <div class="image">
-            <img src="ak.jpg" alt="Image 10">
-            <div class="caption">Potrait<p>(Acrylic)</p></div>
-        </div>
-        <div class="image">
-            <img src="ap.jpg" alt="Image 11">
-            <div class="caption">Swarnim VIjay Varsh <p>(Oil Painting)</p></div>
-        </div>
-        <div class="image">
-            <img src="ar.jpg" alt="Image 12">
-            <div class="caption">Abstract Painting <p>(Oil Painting)</p></div>
-        </div>
-        <div class="image">
-            <img src="aw.jpg" alt="Image 13">
-            <div class="caption">The Monk <p>( Water color )</p></div>
-        </div>
-        <div class="image">
-            <img src="ax.jpg" alt="Image 14">
-            <div class="caption">Waitinh For Someone <p>(Oil Painting)</p></div>
-        </div>
-        <div class="image">
-            <img src="c.jpg" alt="Image 15">
-            <div class="caption">Life OF Joy <p>( Water color )</p></div>
-        </div>
-
-        <!-- Repeat the above three divs for each image -->
+        <?php if (!empty($galleryImages)): ?>
+            <?php foreach ($galleryImages as $image): ?>
+                <div class="image">
+                    <img src="backend/uploads/<?php echo htmlspecialchars($image['image_path']); ?>" alt="Gallery Image">
+                    <div class="caption" style="text-align: center; color:black;">
+                        <p><?php echo !empty($image['description']) ? htmlspecialchars($image['description']) : "No description available."; ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p style="text-align: center;">No images found in the gallery.</p>
+        <?php endif; ?>
     </div>
-    
 
-   <!-- Include navigation arrows in your HTML -->
-<div id="myModal" class="modal">
-    <span class="close">&times;</span>
-    <div class="modal-content">
-        <img id="modalImage">
-        <div id="modalCaption" class="caption"></div>
-        <a id="prev" class="prev">&#10094;</a>
-        <a id="next" class="next">&#10095;</a>
+    <!-- Modal for image preview -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage">
+            <div id="modalCaption" class="caption"></div>
+            <a id="prev" class="prev">&#10094;</a>
+            <a id="next" class="next">&#10095;</a>
+        </div>
     </div>
-</div>
 
+    <script src="assets/js/script-gallery.js"></script>
 
-<script src="assets/js/script-gallery.js"></script>
-     <!-- Painter's Section -->
-     <div class="painter-section">
-        <!-- Painter's Picture (on the left) -->
+    <!-- Painter's Section -->
+    <div class="painter-section">
         <div class="painter-picture">
             <img src="dipa.jpg" alt="Painter's Image" width="100%">
         </div>
-        <!-- Painter's Message (on the right) -->
         <div class="painter-message">
             <h2>Painter's Name</h2>
-            <p>Immerse yourself in the captivating world of Dipanwita Kundu's artistry, where each brushstroke reveals a personal narrative. As you explore the gallery, become part of our vibrant community of art enthusiasts. Dipanwita, not just an artist but a storyteller, draws inspiration from life's tapestry, weaving profound stories into each creation. Every artwork is a portal into a symphony of stories, waiting to be uncovered. Your presence adds another layer to the dynamic canvas we're continuously painting. Stay connected to experience the latest creations, exclusive events, and behind-the-scenes insights. Join us in this interactive journey where your exploration becomes a dialogue, and every story shared enriches the collective narrative.
-
-
-
-
-
-
-            </p>
+            <p>Immerse yourself in the captivating world of Dipanwita Kundu's artistry, where each brushstroke reveals a personal narrative. 
+            As you explore the gallery, become part of our vibrant community of art enthusiasts. Every artwork is a portal into a symphony of stories, waiting to be uncovered.</p>
         </div>
     </div>
-    <br>
+
     <footer>
         <p style="text-align: center;font-size: 20px; padding: 10px;background-color: rgba(0,0,0,0.5);border: rgba(0,0,0,0.5);border-radius: 10px;color: blanchedalmond;">
-            
-            
-            &copy; 2023 Your Website Name. All rights reserved.</p>
-
-</footer>
+            &copy; 2023 Your Website Name. All rights reserved.
+        </p>
+    </footer>
 </body>
 </html>

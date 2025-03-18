@@ -1,0 +1,137 @@
+-- //carttable 
+CREATE TABLE cart (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Foreign Key Constraints
+    CONSTRAINT fk_cart_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE RESTRICT,
+    CONSTRAINT fk_cart_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE ON UPDATE RESTRICT,
+    
+    -- Unique Constraint to prevent duplicate product entries per user
+    CONSTRAINT unique_user_product UNIQUE (user_id, product_id)
+);
+-- gallery
+CREATE TABLE gallery (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image_path VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+-- orders
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    address TEXT NOT NULL,
+    pincode VARCHAR(6) NOT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'paid',
+    payment_method VARCHAR(50) NOT NULL DEFAULT 'not specified',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    bill DATE DEFAULT NULL,
+    cancellation_reason TEXT DEFAULT NULL,
+
+    -- Foreign Key Constraint
+    CONSTRAINT fk_orders_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
+-- order_items
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
+    total_price DECIMAL(10,2) GENERATED ALWAYS AS (quantity * price) STORED,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Foreign Key Constraints
+    CONSTRAINT fk_order_items_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE RESTRICT,
+    CONSTRAINT fk_order_items_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
+-- order_status
+CREATE TABLE order_status (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    status ENUM('Pending Proposal', 'Awaiting Confirmation', 'Confirmed') DEFAULT 'Pending Proposal',
+    proposed_amount DECIMAL(10,2) DEFAULT NULL CHECK (proposed_amount >= 0),
+    tentative_date DATE DEFAULT NULL,
+    dispatch_status ENUM('Not Dispatched', 'Dispatched') DEFAULT 'Not Dispatched',
+    delivery_confirmation ENUM('Awaiting Confirmation', 'Confirmed') DEFAULT 'Awaiting Confirmation',
+    
+    -- Timestamps for tracking record updates
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Foreign Key Constraint
+    CONSTRAINT fk_order_status_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
+-- products
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_key VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    description TEXT DEFAULT NULL,
+    price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
+    images TEXT DEFAULT NULL, 
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    
+    -- Timestamps for tracking product creation and updates
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+-- unverified users
+CREATE TABLE unverified_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,   -- May or may not be unique
+    email VARCHAR(100) NOT NULL UNIQUE,  -- Must be unique
+    password VARCHAR(255) NOT NULL,  -- Store hashed password
+    otp VARCHAR(6) DEFAULT NULL,
+    otp_expiry DATETIME DEFAULT NULL,
+    otp_attempts INT DEFAULT 0 CHECK (otp_attempts >= 0),
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+--upload    
+CREATE TABLE uploads (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    address TEXT NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(15) NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    page_size VARCHAR(50) DEFAULT NULL,
+    background_type VARCHAR(50) DEFAULT NULL,
+    paper_type VARCHAR(50) DEFAULT NULL,
+    upload_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    proposed_amount DECIMAL(10,2) DEFAULT NULL,
+    price_updated TINYINT(1) DEFAULT 0,
+    tentative_date DATE DEFAULT NULL,
+    bill_image VARCHAR(255) DEFAULT NULL,
+    user_response TEXT DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status ENUM('Approved', 'Declined') DEFAULT NULL,
+    payment_method VARCHAR(50) DEFAULT NULL,
+    order_id INT(11) DEFAULT NULL,
+    CONSTRAINT uploads_ibfk_1 FOREIGN KEY (user_id) REFERENCES users(id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE
+);
+--users
+CREATE TABLE users (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

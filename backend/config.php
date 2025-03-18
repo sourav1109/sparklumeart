@@ -65,4 +65,7 @@ function checkUserRole($role) {
 function sanitizeInput($data) {
     return htmlspecialchars(strip_tags(trim($data)));
 }
+// Include scheduled email function
+include_once __DIR__ . "/admin/send_scheduled_emails.php";
+
 ?>

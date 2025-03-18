@@ -6,7 +6,6 @@ require 'vendor/autoload.php'; // Load PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -16,7 +15,6 @@ $userId = $_SESSION['user_id'];
 $userEmail = $_SESSION['email'];
 $userName = $_SESSION['username'];
 
-// Fetch total amount from the database (avoid relying on GET parameter)
 try {
     $cartTotalStmt = $pdo->prepare("
         SELECT SUM(c.quantity * p.price) as total_amount 
@@ -40,13 +38,10 @@ try {
     exit;
 }
 
-// Handle payment confirmation
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // Begin transaction
         $pdo->beginTransaction();
 
-        // Insert order into the database
         $orderStmt = $pdo->prepare("
             INSERT INTO orders (user_id, total_price, status, created_at)
             VALUES (?, ?, 'paid', NOW())
@@ -54,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $orderStmt->execute([$userId, $totalAmount]);
         $orderId = $pdo->lastInsertId();
 
-        // Fetch cart items
         $cartItemsStmt = $pdo->prepare("
             SELECT c.product_id, c.quantity, p.name, p.price
             FROM cart c
@@ -68,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Your cart is empty. Unable to process the order.");
         }
 
-        // Insert cart items into `order_items`
         $orderItemsStmt = $pdo->prepare("
             INSERT INTO order_items (order_id, product_id, quantity, price)
             VALUES (?, ?, ?, ?)
@@ -84,14 +77,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $productDetails[] = $item['name'] . " (x" . $item['quantity'] . ")";
         }
 
-        // Clear the user's cart
         $clearCartStmt = $pdo->prepare("DELETE FROM cart WHERE user_id = ?");
         $clearCartStmt->execute([$userId]);
 
-        // Commit the transaction
+        // *** Update Lead Score Logic ***
+        $leadScoreUpdateStmt = $pdo->prepare("
+            UPDATE users 
+            SET lead_score = lead_score + ? 
+            WHERE id = ?
+        ");
+        $leadIncrease = ceil($totalAmount / 10); // Example: 1 lead score per $10 spent
+        $leadScoreUpdateStmt->execute([$leadIncrease, $userId]);
+
         $pdo->commit();
 
-        // Prepare email details
         $productList = implode(", ", $productDetails);
         $subject = "Order Confirmation - Order #$orderId";
         $message = "
@@ -105,14 +104,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>Regards,<br>Your Shop Name</p>
         ";
 
-        // Send confirmation email using PHPMailer
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'sourav11092002@gmail.com'; // Your Gmail address
-            $mail->Password = 'bxzo cbna xukl lpmn'; // Gmail App Password
+            $mail->Username = 'sourav11092002@gmail.com';
+            $mail->Password = 'bxzo cbna xukl lpmn';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
@@ -128,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             error_log("Error sending email: " . $mail->ErrorInfo);
         }
 
-        // Success alert and redirect to the dashboard
         $_SESSION['order_success'] = "Your order has been placed successfully!";
         echo "<script>
                 alert('Thank you! Your order has been placed successfully. A confirmation email has been sent.');
@@ -137,14 +134,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
 
     } catch (Exception $e) {
-        // Rollback transaction if an error occurs
         $pdo->rollBack();
         error_log("Error placing order: " . $e->getMessage());
-        $errorMessage = $e->getMessage();
-
-        // Error alert and redirect back to the payment page
         echo "<script>
-                alert('Error placing the order: $errorMessage');
+                alert('Error placing the order: {$e->getMessage()}');
                 window.location.href = 'payment_sell.php';
               </script>";
         exit;
